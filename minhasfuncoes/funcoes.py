@@ -23,6 +23,11 @@ import numpy as np
 # inteiros (0, 1, 2)
 from sklearn.preprocessing import LabelEncoder
 
+# Import da classe OneHotEncoder da biblioteca sklear.preprocessing
+# que tem como objetivo criar rótulos binários que possibilita que
+# o modelo não confunda os rótulos numéricos com dados matemáticos ou
+# estatisticos.
+from sklearn.preprocessing import OneHotEncoder
 
 # Importa da função train_test_split da biblioteca sklearn.model
 # selection que tem como objetivo separar os dados em treino e teste
@@ -90,35 +95,48 @@ def preencherDadosFaltantes(variavel_x, estrategia):
     return variavel_x
 
 
-# Criação da função que irá transformar dados categóricos em rótulos numéricos
-# com o objetivo de conseguir inclui-los nos modelos de predição/classificação
+# Criação da função que irá rotular de forma binária os dados categóricos
+# (dados do tipo texto). A função irá receber como paarametro a variável que contém os valores categóricos e a posição da coluna.
+def rotulacao(variavel_x, coluna):
+    
+    # variavel_x[:,coluna]: Primeiro, esta parte seleciona todos os
+    # valores da coluna especificada dentro array variável_x. O ":"
+    # significa todas as linhas, e "coluna" especifica o indice da coluna
+    # O resultado é um vetor (uma lista unidimensional) de todos os valores daquela coluna.
+    
+    # Reshape(-1, 1): função reshape() no NumPy é fundamental para manipular a estrutura (forma) de um array sem alterar os dados que ele contém. Ela permite que você reorganize os elementos de um array em uma nova configuração de linhas e colunas (ou dimensões superiores).
+    
+    # -1: Este é o "coringa" ou "placeholder". Ele significa "calcule esta dimensão automaticamente".
 
-# Criação da função que irá rotular de forma numérica os dados categóricos
-# (dados do tipo texto). A função irá receber como paarametro a variável que
-# contém os valores categóricos
-def rotulacao(variavel_x):
+    # 1:Este número fixo (o segundo elemento da tupla (X, Y)) significa que você quer que o array resultante tenha apenas uma coluna. 
     
-    # Instância da classe (criação do objeto) LabelEncoder
-    label_encoder_x = LabelEncoder()
+    # Coluna categorica: variável que terá o resultado armazenado.
+    coluna_categorica = variavel_x[:,coluna].reshape(-1, 1)
     
-    # Irá criar e aplicar a rotulação numérica nos valores da primeira
-    # coluna (os nomes dos alunos) 
-    variavel_x[:, 0] = label_encoder_x.fit_transform(variavel_x[:, 0])
+    # Instância da classe onehotencoder: Ela irá receber em seu construtor
+    # o sparse_output = False, isso significa que que a saida será será
+    # um array com 0s e 1s, o que é mais fácil de manipular e entender.
+    # Observação: Por padrão, o OneHotEncoder pode retornar uma matriz esparsa (otimizada para dados com muitos zeros)
+    onehot_encoder = OneHotEncoder(sparse_output=False)
     
+    # Ira aplicar a rotulação binária na coluna categórica 
+    binario = onehot_encoder.fit_transform(coluna_categorica)
     
-    # Função que irá aplicar a rotulação binária nos dados categóricos
-    binario = pd.get_dummies(variavel_x[:,0])
+    # Ira remover a coluna categorica. A função ira receber como
+    # parametro:
+    # variavel_x: o array original que será removido da coluna categórica
+    # coluna: o indice da coluna que terá os valores excluidos
+    # axis =1 : A sinalização que estamos excluindo os valores de uma coluna
+    remover_valores_coluna_categorica = np.delete(variavel_x, coluna, axis=1)
     
-    # Ira usar a função insert da biblioteca numpy para inserir os rótulos
-    # binários no conjunto de dados. A função irá receber como parametro:
-    # variavel_x: conjunto que irá receber os valores
-    # 0: A posição que os dados ficaram no conjunto
-    # binario.values: Os valores que serão inseridos
-    # axis = 1: A indicação que estamos inserindo uma nova coluna.
-    variavel_x = np.insert(variavel_x, 0, binario.values, axis=1)
+    # Ira concatenar as 2 colunas (a coluna categórica vázia com a coluna
+    # coluna que irá conter os valores binários)
+    # axis=1: Indica que estamos concatenando colunas
+    resultado = np.concatenate((remover_valores_coluna_categorica, binario), axis=1)
     
-    # Retorni da função com o resultado
-    return variavel_x
+    # Retorno a concatenação das colunas com os valores binários
+    return resultado
+    
 
 
 # Criação da função que irá separar os dados em treino e teste com o objetivo de
