@@ -70,6 +70,10 @@ def carregar_Dataset(nome_arquivo, delimitador = None):
     # modelo
     y = base_de_dados.iloc[:, -1].values
     
+    # Observação:Ao usar a função values,
+    # transformaremos as variáveis x e y
+    # em arrays numpy
+    
     # Ira retornar os valores de x e y
     return x, y 
 
