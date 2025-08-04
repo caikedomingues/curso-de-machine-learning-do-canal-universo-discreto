@@ -171,29 +171,12 @@ def treino_teste(x, y, tamanho_teste):
 # de definir uma escala de valores que busca evitar a descrepância
 # entre os valores. A função ira receber como argumentos os dados de
 # treino e teste.
-def padronizacao(treino, teste):
+def normalizacao(x):
     
-    # Import da classe StandardScaler da biblioteca skelarn.preprocessing
-    # que tem como objetivo aplicar uma escala com média 0  e desvio padrão 1 que irá padronizar o conjunto de valores da base de dados.
-    
-    # Observação: Vale lembra que a biblioteca preprocessing tem como
-    # função preparar os dados antes de utilizarmos como por exemplo
-    # na definição de rótulos, na padronização de valores, etc.
-    
-    # Instância da classe (criação do objeto) Standard
-    scale_x = StandardScaler()
-    
-    # fit_transform da classe standardscaler que irá
-    # calcular e aplicar nos dados de treino a padronização
-    # dos dados
-    treino = scale_x.fit_transform(treino)
-    
-    # transform da classe StandardScaler que irá aplicar 
-    # nos dados de teste a padronização criada nos dados 
-    # de treino
-    teste = scale_x.transform(teste)
-    
-    # Retorno das variáveis com os resultados
-    return treino, teste
+    from sklearn.preprocessing import StandardScaler
 
+    scale = StandardScaler()
 
+    x = scale.fit_transform(x)
+    
+    return x, scale
