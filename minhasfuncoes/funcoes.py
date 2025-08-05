@@ -165,18 +165,25 @@ def treino_teste(x, y, tamanho_teste):
     
     return XTrain, XTest, YTrain, YTest
 
-# Função que irá realizar a padronização dos valores do dataset com o objetivo
+# Função que irá realizar a normalização dos valores do dataset com o objetivo
 # de lidar com valores que estão discrepantes
 # Função que irá realizar a padronização dos dados com o objetivo
 # de definir uma escala de valores que busca evitar a descrepância
 # entre os valores. A função ira receber como argumentos os dados de
-# treino e teste.
+# de x (caracteristicas).
 def normalizacao(x):
     
+    # imoort da classe StandardScaler da biblioteca preprocessing
+    # que tem como objetivo realizar a padronização dos dados.
+    # Ele faz com que os dados tenham média zero e desvio padrão
+    # um.
     from sklearn.preprocessing import StandardScaler
 
+    # instância da classe StandardScaler
     scale = StandardScaler()
 
+    # Ira aprender sobre os dados e aplicar a normalização
     x = scale.fit_transform(x)
     
+    # Ira retornar o x normalizado e o objeto standardScaler
     return x, scale
