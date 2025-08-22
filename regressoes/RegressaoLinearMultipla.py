@@ -63,6 +63,8 @@ def computarRegressaoMultipla(x_train, x_test, y_train, y_test):
     # de valores de uma base de dados
     from sklearn.linear_model import LinearRegression
     
+    from sklearn.metrics import r2_score
+    
     # Instância da classe de regressão linear
     regressao = LinearRegression()
     
@@ -95,7 +97,10 @@ def computarRegressaoMultipla(x_train, x_test, y_train, y_test):
         
         # Irá dar intervalos de 1 segundo na aparição de cada valor
         time.sleep(1)
-    
+   
+    return r2_score(y_test, predicao)
+
+
 
 
 # In[ ]:
@@ -201,9 +206,4 @@ def regressaoMultipla(nome_arquivo, delimitador = None):
     print("Tempo da criação da regressão linear multipla: %.2f"% tempo_decorrido, " segundos")
 
 
-# In[ ]:
-
-
-# Chamada da função com o arquivo utilizado na construção do modelo
-regressaoMultipla("Dados/insurance.csv", ";")
 

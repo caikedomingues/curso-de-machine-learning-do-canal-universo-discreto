@@ -152,6 +152,8 @@ def regressorVetorSuporte(nome_arquivo, delimitador = None):
     # Biblioteca que possui funções que manipulam o tempo
     import time
     
+    from sklearn.metrics import r2_score
+    
     # Ira conter o segundo atual (inicio da execucção do programa)
     tempo_inicial = time.time()
     
@@ -239,12 +241,9 @@ def regressorVetorSuporte(nome_arquivo, delimitador = None):
     # para que a linha do gráfico tenha os valores de salário reais. Este será
     # o yline.
     showPlot(scaleX.inverse_transform(x), scaleY.inverse_transform(y), scaleX.inverse_transform(x), scaleY.inverse_transform(svrModel.predict(x).reshape(-1, 1)))
+    
+    return r2_score(y, svrModel.predict(x))
+    
 
 
-# In[ ]:
-
-
-# Chamada da função que aplica a regressão. Usaremos o arquivo salary.csv
-# para construção do modelo
-regressorVetorSuporte('Dados/salary.csv', ';')
 

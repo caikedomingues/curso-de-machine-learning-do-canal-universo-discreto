@@ -119,6 +119,8 @@ from minhasfuncoes import funcoes
 # matemáticos e manipular arrays
 import numpy as np
 
+from sklearn.metrics import r2_score
+
 # Função que irá aplicar a arvore de decisão nos dados. A função
 # recebe como argumento:
 # nome_do_aruqivo: Nome da base de dados (local que o arquivo está armazenado)
@@ -224,36 +226,10 @@ def arvore_de_decisao(nome_do_arquivo, delimitador = ','):
     # format: Formato do arquivo
     # view: Indica see a imagem será mostrada após a execução do
     # código
-    source.render(filename='arvore_de_decisao', format='png', view=True)    
+    source.render(filename='arvore_de_decisao', format='png', view=True)
+    
+    return r2_score(y, arvore.predict(x))    
     
 
 
-# Chamada do método de construção da árvore
 
-# In[9]:
-
-
-arvore_de_decisao('dados/salary.csv', ';')
-
-
-#                                     Conclusão do gráfico
-# ->Podemos observar no gráfico que a arvore conseguiu utilizar todos os pontos(exceto um ponto que está isolado no intervalo entre 2 e 4). Essa visualização abrangente dos dados só é possivel por conta da variável XGrid.
-# 
-# -> Observação: Os pontos mostrados representam as médias de salários
-# de acordo com a experiência do trabalhador
-
-# Aplicando a árvore de decisão em outro conjunto de salários 
-
-# In[10]:
-
-
-arvore_de_decisao('Dados/salary2.csv', ';')
-
-
-#                             Conclusão do gráfico
-# -> Podemos observar que a arvore conseguiu acessar utilizar todos
-# os dados para realizar a alocação de novos dados de acordo com
-# a média dos valores.
-# 
-# -> Outro fator que facilita a alocação da arvore é a pequena quantidade
-# de valores da base de dados.

@@ -126,6 +126,8 @@ import numpy as np
 # Import do nosso arquivo de funções
 from minhasfuncoes import funcoes 
 
+from sklearn.metrics import r2_score
+
 # Função que irá aplicar o modelo de floresta nos dados do dataset.
 # A função irá receber como argumento:
 # nome_do_arquivo: Caminho da pasta que possui a base de dados.
@@ -243,25 +245,7 @@ def florestaAleatoria(nome_do_arquivo, delimitador=','):
     # Impressão do tempo necessário para a renderização da imagem
     print("Tempo necessário para renderizar a imagem da floresta escolhida: ", round(tempo_necessário, 2), " segundos") 
     
+    return r2_score(y, floresta.predict(x))
     
     
-
-
-# In[63]:
-
-
-florestaAleatoria('Dados/salary.csv', ';')
-
-
-#                             Conclusão do gráfico
-# 
-# -> Podemos observar que a linha azul possui os valores das médias gerais
-# geradas pelas árvores.
-# 
-# -> Podemos observar que há alguns outliers (valores fora do padrão) que 
-# não foram acessados pela reta de predição da floresta
-# 
-# -> Os pontos representam os valores reais da base de dados.
-# 
-# -> Podemos observar que em sua grande maioria os valores médios (repre
-# sentados pela linha) estão próximos dos valores reais (pontos vermelhos).
+    

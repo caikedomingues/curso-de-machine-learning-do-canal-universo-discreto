@@ -26,6 +26,9 @@ def computarRegressaoLinear( x_train, x_test, y_train, y_test):
     # base de dados
     from sklearn.linear_model import LinearRegression
     
+    
+    from sklearn.metrics import r2_score
+    
     # Biblioteca que possibilita a construção de inumeros tipos de gráficos
     import matplotlib.pyplot as plt
     
@@ -40,6 +43,8 @@ def computarRegressaoLinear( x_train, x_test, y_train, y_test):
     
     # Comparando os valores reais com os previsto
     print(y_test, ypredicao)
+    
+    return r2_score(y_test, ypredicao)
     
    # Este bloco de código tem como objetivo principal visualizar a qualidade do ajuste do seu modelo de regressão linear aos dados. Ele faz isso plotando os dados reais e a linha de previsão do modelo em um único gráfico.
     
@@ -139,5 +144,4 @@ def regressao_linear(nome_do_arquivo, delimitador = None):
     # Ira chamar a função de construção da regressão lienar utilizando
     # o conjunto de treino e teste.
     computarRegressaoLinear( x_train, x_test, y_train, y_test)
-
     

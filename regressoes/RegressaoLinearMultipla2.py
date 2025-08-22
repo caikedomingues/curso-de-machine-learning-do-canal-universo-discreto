@@ -111,6 +111,8 @@ def computeMLRWithBackWardElimination(x, y):
 # esse argumento em "branco".
 def regressaomultipla(nome_arquivo, delimitador=None):
     
+    from sklearn.metrics import r2_score
+    
     # Import da função LinearRegression da biblioteca sklearn.linear_model
     # que tem como objetivo construir modelos de predição de valores
     from sklearn.linear_model import LinearRegression
@@ -174,21 +176,5 @@ def regressaomultipla(nome_arquivo, delimitador=None):
         # 2: quantidade de valores após a virgula
         print(round(predicao[i], 2), round(y_test[i], 2))
     
-    
-    
-    
+    return r2_score(y_test, predicao)
 
-
-# In[10]:
-
-
-# Chamada da função que irá construir o modelo de regressão
-# usando o arquivo insurance.csv
-regressaomultipla('Dados/insurance.csv', ';')
-
-
-#                                                  Conclusão do Back Ward Elimination 
-# -> Podemos que a função definiu o x4 (region) como irrelevante para o modelo com um 
-# p valor de 0.238
-# 
-# 

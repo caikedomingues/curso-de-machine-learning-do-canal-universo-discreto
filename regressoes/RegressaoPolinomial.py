@@ -198,6 +198,8 @@ def computarregressaolinear(x, y):
 # seja o padrão (',') não precisaremos passar o delimitador como argumento.
 def progressaopolinomial(nome_arquivo, delimitador = None):
     
+    from sklearn.metrics import r2_score
+    
     # Irá conter funções que permitem a manipulação do tempo
     import time
     
@@ -283,54 +285,5 @@ def progressaopolinomial(nome_arquivo, delimitador = None):
     # na predição.
     showplotpolinomial(x, y,x, polylinear.predict(xpoly))
 
+    return r2_score(y, polylinear.predict(xpoly))
 
-# In[ ]:
-
-
-# Chamada da função de construção das regressões.
-# A função irá receber o nome do arquivo e o 
-# delimitador
-progressaopolinomial('Dados/salary.csv', ";")
-
-
-#                                             Conclusão dos gráficos
-#                                             
-#                                             Interpretação do gráfico
-# pontos vermelhos: Valores reais da base de dados
-# 
-# linha de predição: representa os valores que o modelo conseguiu prever.
-# 
-#                                             Regressão Linear
-# -> O gráfico de regressão linear mostra uma tendência no aumentio de salário
-# de funcionários com mais experiência.
-# 
-# -> Podemos observar que a regressão linear conseguiu prver alguns valores
-# (basta observar os pontos presentes na reta) entre os valores 4 e 10.
-# 
-# -> Há uma pequena parcela de pontos(valores reais) que a reta não conseguiu chegar nem perto do valor de previsão.
-# Porém, a regressão linear chegou próximo da maioria dos valores reais presentes no gráfico.
-# 
-# -> O modelo teve dificuldade de prever os valores da faixa entre o 4 e o 6 
-# 
-# 
-#                                             Regressão Polinomial
-# 
-# -> Mostra uma tendência no aumento de salário de funcionários que possuem mais experiência
-# 
-# -> conseguiu prever uma pequena parcela de valores, porém também chegou perto de alguns valores
-# (igual a regressão linear)
-# 
-# -> Também teve dificuldades em prever valores na faixa entre o 4 e o 6.
-# 
-# 
-#                                              Comparação entre os modelo
-# 
-# -> Para mim, ambos o modelo alcançaram praticamente o mesmo resultado, pois
-# ambos preveram com exatidão uma pequena parcela (arrisco a dizer que preveram
-# a mesma quantidade de valores) e chegaram próximo de prever as demais, o que é
-# ótimo para o modelo, já que é muito dificil prever com exatidão os valores, logo,
-# devemos avaliar o quão próximo o modelo chegou de acertar o valor. Porém, como
-# a regressão polinomial procura se "ajustar" melhor aos dados, talvez ele tenha
-# conseguido alcançar mais valores (algo que visualmente eu não consigo ver com muita clareza)
-# 
-# -> Ambos modelos tiveram dificuldade em prever valores na faixa entre o 4 e o 6
