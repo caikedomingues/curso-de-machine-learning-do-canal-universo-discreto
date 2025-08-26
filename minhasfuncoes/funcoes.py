@@ -80,23 +80,34 @@ def carregar_Dataset(nome_arquivo, delimitador = None):
 # Função que irá preencher dados faltantes da base de dados usando a classe SimpleImputer
 
 
-# Criação da função que terá como objetivo substituir valores Not a Number
-# ou seja linhas que não possuem valores. A função irá receber como parametro
-# 2 valores: a variável que terá os valores preenchidos e o tipo de estratégia
-# que o SimpleImputer irá utilizar para preencher esses dados como por exemplo a média ou a mediana.
-def preencherDadosFaltantes(variavel_x, estrategia):
-    # Instância da classe (criação do objeto) SimpleImputer. O construtor
-    # da classe irá receber o missing_values que indica o tipo de valor
-    # faltante e a estratégia que será utilizada para preenche-los. 
-    imputer = SimpleImputer(missing_values=np.nan, strategy=estrategia)
+# Criação da função que terá como objetivo preencher os dados faltantes
+# de uma base de dados usando a média aritmética. A função irá receber
+# como argumento o conjunto de dados e o intervalo de colunas que
+# será preenchido
+# x: Conjunto de dados
+# inicioColuna: Primeira coluna que sera preenchida
+# fimColuna: Ultima coluna a ser preenchida 
+def preencherDadosFaltantes(X, inicioColuna, fimColuna):
     
-    # Irá aplicar os preenchimentos no dataset no intervalo selecionado.
-    # O intervalo irá pegar todas as colunas exceto a primeira (que geralm
-    # ente contém ids ou nomes).
-    variavel_x[:,1:] = imputer.fit_transform(variavel_x[:,1:])
+    # Import da classe SimpleImputer da biblioteca sklearn.impute
+    # que tem como objetivo preencher valores nulos de uma base de
+    # dados usando estratégias
+    from sklearn.impute import SimpleImputer
     
-    # Retorna da variável x com as alterações
-    return variavel_x
+    # Instância da classe SimpleImputer(criação do objeto). O construtor 
+    # irá receber como argumento:
+    # missing_values: indica o tipo de dado que deve ser preenchido
+    # strategy: Indica o tipo de valor que irá preencher os dados, no
+    # nosso caso, vamos escolher a média aritmética
+    imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+    
+    # Intervalo que será preenchido
+    # fit_transform: Ira preencher os dados faltantes com a média
+    # definida na estratégia
+    X[:,inicioColuna:fimColuna + 1] = imputer.fit_transform(X[:,inicioColuna:fimColuna + 1])
+    
+    # Retorno dos dados preenchidos.
+    return X
 
 
 # Criação da função que irá rotular de forma binária os dados categóricos
