@@ -198,3 +198,25 @@ def normalizacao(x):
     
     # Ira retornar o x normalizado e o objeto standardScaler
     return x, scale
+
+
+
+# Função que irá testar a eficiencia de classificação do modelo. A função
+# irá receber como argumento a matriz de confusão com os resultados da 
+# classificação.
+def acuracia(matriz_confusao):
+    
+    # matriz_confusao[0][0]: Este valor representa os verdadeiros
+    # negativos. São as previsões que o modelo classificou como 0
+    # e que de fato, eram 0. 
+    
+    # matriz_confusao[1][1]: Este valor representa os verdadeiros
+    # negativos. São as previsões que o modelo classificou como 1
+    # e que de fato, eram 1.
+    
+    # soma (matriz_confusao[0][0] + matriz_confusao[1][1]) no numerador da fórmula representa o total de acertos do modelo.
+    
+    # matriz_confusao[0][0] + matriz_confusao[1][0] + matriz_confusao[0][1] + matriz_confusao[1][1]: Esta soma representa o total de previsões feitas pelo modelo, ou seja, todos os elementos da matriz de confusão.
+    
+    accuracy = (matriz_confusao[0][0] + matriz_confusao[1][1]) / (matriz_confusao[0][0] + matriz_confusao[1][0] + matriz_confusao[0][1] + matriz_confusao[1][1])
+    return accuracy
