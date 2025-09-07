@@ -3,8 +3,7 @@
 # utilizar durante as aualas, dessa maneira, não precisarei ficar reescrevendo os mesmos blocos de código
 
  # Ira importar a biblioteca pandas que irá acessar o dataset
- # e manipulará os dados. Também ira conter o get_dummies que
- # usaremos no LabelEncoder
+ # e manipulará os dados. T
 import pandas as pd
 
 # Import da classe SimpleImputer da biblioteca sklearn.impute.
@@ -18,11 +17,6 @@ from sklearn.impute import SimpleImputer
 # Imputer.
 import numpy as np 
 
-# Import da classe LabelEncoder da biblioteca sklearn.preprocessing
-# que é usada para transformar rótulos categóricos (como nomes) em
-# inteiros (0, 1, 2)
-from sklearn.preprocessing import LabelEncoder
-
 # Import da classe OneHotEncoder da biblioteca sklear.preprocessing
 # que tem como objetivo criar rótulos binários que possibilita que
 # o modelo não confunda os rótulos numéricos com dados matemáticos ou
@@ -34,12 +28,21 @@ from sklearn.preprocessing import OneHotEncoder
 # para construção de modelos.
 from sklearn.model_selection import train_test_split
 
+# Import da classe SimpleImputer da biblioteca sklearn.impute
+# que tem como objetivo preencher valores nulos de uma base de
+# dados usando estratégias
+from sklearn.impute import SimpleImputer
+    
 
-# Desvio padrão: Medida que indica a distância que os valores estão
-# da média, ou seja, quanto mais próximo da média (ou igual a média)
-# mais baixo é o desvio padrão, já quanto mais distante, maior é o 
-# desvio padrão. A classificação de "desvio padrão alto ou baixo" não considera se o valor individual é maior ou menor que a média.
+# imoort da classe StandardScaler da biblioteca preprocessing
+# que tem como objetivo realizar a padronização dos dados.
+# Ele faz com que os dados tenham média zero e desvio padrão
+# um.
 from sklearn.preprocessing import StandardScaler
+
+# Função que tem como objetivo construir barras de progresso em
+# estruturas de repetição
+from tqdm import tqdm
 
 
 # Método que irá carregar os arquivos e acessar os valores das colunas. O objetivo da criação desse método é facilitar a leitura dos arquivos csv e facilitar a captura dos valores das colunas, algo que, aparentemente,iremos fazer com frequência nas aulas
@@ -88,11 +91,6 @@ def carregar_Dataset(nome_arquivo, delimitador = None):
 # inicioColuna: Primeira coluna que sera preenchida
 # fimColuna: Ultima coluna a ser preenchida 
 def preencherDadosFaltantes(X, inicioColuna, fimColuna):
-    
-    # Import da classe SimpleImputer da biblioteca sklearn.impute
-    # que tem como objetivo preencher valores nulos de uma base de
-    # dados usando estratégias
-    from sklearn.impute import SimpleImputer
     
     # Instância da classe SimpleImputer(criação do objeto). O construtor 
     # irá receber como argumento:
@@ -183,12 +181,6 @@ def treino_teste(x, y, tamanho_teste):
 # entre os valores. A função ira receber como argumentos os dados de
 # de x (caracteristicas).
 def normalizacao(x):
-    
-    # imoort da classe StandardScaler da biblioteca preprocessing
-    # que tem como objetivo realizar a padronização dos dados.
-    # Ele faz com que os dados tenham média zero e desvio padrão
-    # um.
-    from sklearn.preprocessing import StandardScaler
 
     # instância da classe StandardScaler
     scale = StandardScaler()
@@ -220,3 +212,36 @@ def acuracia(matriz_confusao):
     
     accuracy = (matriz_confusao[0][0] + matriz_confusao[1][1]) / (matriz_confusao[0][0] + matriz_confusao[1][0] + matriz_confusao[0][1] + matriz_confusao[1][1])
     return accuracy
+
+
+# Função que terá como objetivo, testar a eficiência do nossos modelos
+# de classificação através de loops que irão executar o modelo várias
+# vezes com objetivo de testar o modelo em vários conjuntos diferentes
+# (conjuntos de treino e teste).A função irá receber como argumento:
+
+# funcao: Função que irá ser executada dentro do loop.
+# tamanho do loop: quantidade de vezes que o loop executará o programa.
+# descrição: Irá conter a descrição da barra de progresso. O argumento
+# terá como valor padrão a frase 'Não há descrição'.
+def testar_modelo_classificacao(funcao, tamanho_do_loop, descricao='Não há descrição'):
+    
+    # Lista que irá conter as acurácias do modelo após cada execução.
+    array_acuracias = []
+    
+    # Loop for que irá permitir que o modelo seja executado várias vezes.
+    # Ele será construido usando a função tqdm que constroi barras de progresso em estruturas de 
+    # repetição. A função tqdm recebe como argumento o range com o tamanho do loop e a descrição
+    # da barra de progresso.
+    for i in tqdm(range(0, tamanho_do_loop), desc=descricao):
+        
+        # Variável que irá conter os resultados de cada execução
+        # do modelo.
+        modelo = funcao()
+        
+        # Inserindo os valores da função acurácia no array de acurácias do
+        # modelo. A função recebe como argumento os valores da variável modelo.
+        array_acuracias.append(acuracia(modelo))
+    
+    # Impressão da média dos resultados da acurácia usando a função mean do numpy que 
+    # irá retornar a média do conjunto de valores.
+    print("Média das acurácias do modelo de classificação: %.2f"% np.mean(array_acuracias))
